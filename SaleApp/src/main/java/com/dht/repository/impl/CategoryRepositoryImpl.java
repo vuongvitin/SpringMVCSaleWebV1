@@ -9,7 +9,12 @@ import com.dht.pojo.Category;
 import com.dht.repository.CategoryRepository;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Query;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -17,21 +22,16 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class CategoryRepositoryImpl implements CategoryRepository {
-
+    @Autowired
+    private LocalSessionFactoryBean sessionFactory;
+    
     @Override
+    @Transactional
     public List<Category> getCategories() {
-        List<Category> cates = new ArrayList<>();
-        Category c1 = new Category();
-        c1.setId(1);
-        c1.setName("Mobile");
-        Category c2 = new Category();
-        c2.setId(2);
-        c2.setName("Tablet");
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        Query q = session.createQuery("From Category");
         
-        cates.add(c1);
-        cates.add(c2);
-        
-        return cates;
+        return q.getResultList();
     }
     
 }
