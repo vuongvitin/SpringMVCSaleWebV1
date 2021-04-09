@@ -31,5 +31,10 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProducts(BigDecimal fromPrice, BigDecimal toPrice) {
         return this.productRepository.getProducts(fromPrice, toPrice);
     }
+
+    @Override
+    public boolean deleteProduct(int productId) {
+        return this.productRepository.deleteProduct(productId);
+    }
     
 }

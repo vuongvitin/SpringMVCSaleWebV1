@@ -13,7 +13,7 @@
         </li>
         <c:forEach items="${categories}" var="cate">
             <li class="nav-item">
-                <a class="nav-link" href="#">${cate.name}</a>
+                <a class="nav-link" href="<c:url value="/?cateId=${cate.id}" />">${cate.name}</a>
             </li>
         </c:forEach>
     </ul>

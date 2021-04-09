@@ -7,7 +7,6 @@ package com.dht.repository.impl;
 
 import com.dht.pojo.Category;
 import com.dht.repository.CategoryRepository;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.Session;
@@ -32,6 +31,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         Query q = session.createQuery("From Category");
         
         return q.getResultList();
+    }
+
+    @Override
+    @Transactional
+    public Category getCateById(int id) {
+        Session session = this.sessionFactory.getObject().getCurrentSession();
+        return session.get(Category.class, id);
     }
     
 }
