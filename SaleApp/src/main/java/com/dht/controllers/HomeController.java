@@ -5,8 +5,12 @@
  */
 package com.dht.controllers;
 
+import com.dht.pojo.Cart;
 import com.dht.service.CategoryService;
 import com.dht.service.ProductService;
+import com.dht.utils.Utils;
+import java.util.Map;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,8 +32,9 @@ public class HomeController {
     private ProductService productService;
     
     @ModelAttribute
-    public void addAttributes(Model model) {
+    public void addAttributes(Model model, HttpSession session) {
         model.addAttribute("categories", this.categoryService.getCategories());
+        model.addAttribute("cartStats", Utils.getCartStats((Map<Integer, Cart>) session.getAttribute("cart")));
     }
     
     @RequestMapping("/")

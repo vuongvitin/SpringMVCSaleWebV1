@@ -21,4 +21,30 @@ function deleteProduct(productId) {
     }
 }
 
+function addToCart(productId) {
+    fetch(`/SaleApp/api/products/${productId}`).then(res => {
+        if (res.status == 200) {
+            let d = document.getElementById("cart-counter");
+            d.innerText = parseInt(d.innerText) + 1; 
+        } else {
+            alert("Something wrong!!!");
+        }
+    })
+}
+
+function pay() {
+    fetch(`/SaleApp/api/pay`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(res => {
+        if (res.status == 200) {
+            location.reload();
+        } else {
+            alert("Something wrong!!!");
+        }
+    })
+}
+
 
