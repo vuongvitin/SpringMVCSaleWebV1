@@ -16,5 +16,10 @@
                 <a class="nav-link" href="<c:url value="/?cateId=${cate.id}" />">${cate.name}</a>
             </li>
         </c:forEach>
+        <li class="nav-item">
+            <a class="nav-link text-danger" href="<c:url value="/cart" />">
+                Giỏ hàng <span class="badge badge-danger">0</span>
+            </a>
+        </li>
     </ul>
 </nav>

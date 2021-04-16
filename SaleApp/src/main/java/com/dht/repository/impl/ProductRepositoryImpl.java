@@ -112,6 +112,30 @@ public class ProductRepositoryImpl implements ProductRepository {
         return false;
     }
 
+    @Override
+    @Transactional
+    public boolean addOrUpdateProduct(Product product) {
+        Session s = this.sessionFactory.getObject().getCurrentSession();
+        try {
+            if (product.getId() > 0)
+                s.update(product);
+            else
+                s.save(product);
+            
+            return true;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        }
+        
+        return false;
+    } 
+
+    @Override
+    @Transactional
+    public Product getProductById(int productId) {
+        return this.sessionFactory.getObject().getCurrentSession().get(Product.class, productId);
+    }
+
 }
 
 interface ProductChecker {

@@ -4,33 +4,62 @@
     Author     : Admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <section>
-    <<h1 class="text-center text-danger">
+    <h1 class="text-center text-danger">
         <spring:message code="saleapp.title" />
     </h1>
-    <form method="POST" enctype="multipart/form-data">
+    <form:form method="post" modelAttribute="product">
+        <form:errors path="*" element="div" cssClass="alert alert-danger" />
+        
         <div class="form-group">
             <label for="name">
                 <spring:message code="product.name" />
             </label>
-            <input id="name" class="form-control" />
+            <form:input id="name" cssClass="form-control" path="name" />
+        </div>
+        <div class="form-group">
+            <label for="description">
+                <spring:message code="product.des" />
+            </label>
+            <form:input id="description" cssClass="form-control" path="description" />
         </div>
         <div class="form-group">
             <label for="price">
                 <spring:message code="product.price" />
             </label>
-            <input id="price" class="form-control" />
+            <form:input id="price" cssClass="form-control" path="price" />
         </div>
         <div class="form-group">
-            <label for="price">
-                <spring:message code="product.image" />
+            <label for="category">
+                <spring:message code="product.cate" />
             </label>
-            <input type="file" id="price" class="form-control" />   
+            <form:select cssClass="form-control" id="category" path="category">
+                 <c:forEach items="${categories}" var="cat">
+                    <c:if test="${cat.id == product.category.id}">
+                        <option selected value="${cat.id}">${cat.name}</option>
+                    </c:if>
+                    <c:if test="${cat.id != product.category.id}">
+                        <option value="${cat.id}">${cat.name}</option>
+                    </c:if>
+                </c:forEach>
+            </form:select>
         </div>
+        
         <div class="form-group">
-            <input type="submit" class="btn btn-warning" 
+            <form:hidden path="id" />
+            <c:if test="${product.id > 0}">
+                <input type="submit" class="btn btn-warning" 
+                   value="<spring:message code="product.update" />" />
+            </c:if>
+            <c:if test="${product.id <= 0}">
+                <input type="submit" class="btn btn-warning" 
                    value="<spring:message code="product.add" />" />
+            </c:if>
+            
         </div>
-    </form>
+    </form:form>
 </section>
