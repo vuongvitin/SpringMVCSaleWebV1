@@ -12,6 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -20,20 +23,45 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
+    public static final String ROLE_USER = "ROLE_USER";
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "first_name")
+    @NotEmpty(message = "{user.common.emptyErr}")
     private String firstName;
     @Column(name = "last_name")
+    @NotEmpty(message = "{user.common.emptyErr}")
     private String lastName;
+    @NotEmpty(message = "{user.common.emptyErr}")
+    @Pattern(regexp = "^[A-Za-z0-9+_.-]+@ou.edu.vn$", message = "{user.email.invalid}")
     private String email;
+    @Pattern(regexp = "\\d{10}", message = "{user.phone.invalid}")
     private String phone;
+    @NotEmpty(message = "{user.common.emptyErr}")
     private String username;
+    @NotEmpty(message = "{user.common.emptyErr}")
     private String password;
     private boolean active;
     @Column(name = "user_role")
     private String userRole;
+    @Transient
+    private String confirmPassword;
+    
+    /**
+     * @return the confirmPassword
+     */
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    /**
+     * @param confirmPassword the confirmPassword to set
+     */
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
 
     /**
      * @return the id

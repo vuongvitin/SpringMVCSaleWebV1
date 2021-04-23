@@ -21,5 +21,26 @@
                 Giỏ hàng <span class="badge badge-danger" id="cart-counter">${cartStats.totalQuantity}</span>
             </a>
         </li>
+        
+        <c:choose>
+            <c:when test="${pageContext.request.userPrincipal.name == null}">
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="<c:url value="/register" />">
+                        Đăng ký 
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="<c:url value="/login" />">Đăng nhập</a>
+                </li>
+            </c:when>
+            <c:when test="${pageContext.request.userPrincipal.name != null}">
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="#">${pageContext.request.userPrincipal.name}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="<c:url value="/logout" />">Logout</a>
+                </li>
+            </c:when>
+        </c:choose>
     </ul>
 </nav>

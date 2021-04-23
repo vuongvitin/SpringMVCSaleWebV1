@@ -6,6 +6,10 @@
 package com.dht.configs;
 
 import com.dht.formatter.CategoryFormatter;
+import com.dht.validator.UserPassValidator;
+import com.dht.validator.WebAppValidator;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,7 +32,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"com.dht.controllers", "com.dht.repository", "com.dht.service"})
+@ComponentScan(basePackages = {
+    "com.dht.controllers", 
+    "com.dht.repository", 
+    "com.dht.service",
+    "com.dht.validator"
+})
 public class MyWebConfigs implements WebMvcConfigurer {
 
     @Override
@@ -46,7 +55,7 @@ public class MyWebConfigs implements WebMvcConfigurer {
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
-        resource.addBasenames("messages", "products");
+        resource.addBasenames("messages", "products", "users");
         
         return resource;
     }
@@ -69,6 +78,14 @@ public class MyWebConfigs implements WebMvcConfigurer {
         registry.addFormatter(new CategoryFormatter());
     }
     
-    
+    @Bean
+    public WebAppValidator userValidator() {
+        Set<Validator> myV = new HashSet<>();
+        myV.add(new UserPassValidator());
+        
+        WebAppValidator v = new WebAppValidator();
+        v.setSpringValidators(myV);
+        return v;
+    }
     
 }
